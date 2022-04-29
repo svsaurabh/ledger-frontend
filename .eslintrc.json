@@ -18,5 +18,8 @@
         "react"
     ],
     "rules": {
+        "react/jsx-uses-vars": "warn",
+        "react/jsx-uses-react": "warn",
+        "no-unused-vars": "warn"
     }
 }
