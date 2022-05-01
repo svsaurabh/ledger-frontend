@@ -34,7 +34,6 @@ const Navbar = ({ isAuthenticated }) => {
     };
 
     const handleMenu = (event) => {
-        console.log(event.currentTarget);
         setAnchorEl(event.currentTarget);
     };
 

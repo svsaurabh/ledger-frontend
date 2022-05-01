@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -13,7 +12,6 @@ import Container from "@mui/material/Container";
 const Login = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("clicked");
         return;
     };
     return (

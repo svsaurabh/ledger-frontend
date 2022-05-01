@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import Navbar from "./components/layout/Navbar";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
+import Alerts from "./components/layout/Alerts";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -24,6 +25,7 @@ function App() {
                 <Router>
                     <Fragment>
                         <Navbar />
+                        <Alerts />
                         <Routes>
                             <Route exact path="/login" element={<Login />} />
                             <Route
