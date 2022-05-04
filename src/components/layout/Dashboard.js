@@ -5,7 +5,7 @@ import { loadUser } from "../../actions/auth";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
-const Dashboard = ({ auth: { loading }, loadUser, user }) => {
+const Dashboard = ({ auth: { loading, user }, loadUser }) => {
     useEffect(() => {
         loadUser();
     }, [loadUser]);
@@ -21,17 +21,15 @@ const Dashboard = ({ auth: { loading }, loadUser, user }) => {
             <CircularProgress />
         </Box>
     ) : (
-        <div>Hi {user.firstName}</div>
+        <div>Hi {user?.firstName}</div>
     );
 };
 
 Dashboard.propTypes = {
     auth: PropTypes.object.isRequired,
     loadUser: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
     auth: state.auth,
-    user: state.auth.user,
 });
 export default connect(mapStateToProps, { loadUser })(Dashboard);

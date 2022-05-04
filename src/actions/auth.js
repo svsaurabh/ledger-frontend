@@ -8,6 +8,7 @@ import {
     AUTH_ERROR,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
+    LOGOUT,
 } from "./types";
 
 // Load user
@@ -99,3 +100,10 @@ export const login =
             });
         }
     };
+
+export const logout = () => async (dispatch) => {
+    dispatch({
+        type: LOGOUT,
+    });
+    dispatch(setAlert("You are logged out", "success"));
+};

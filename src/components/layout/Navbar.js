@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -16,9 +16,10 @@ import Tooltip from "@mui/material/Tooltip";
 import PersonIcon from "@mui/icons-material/Person";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { connect } from "react-redux";
+import { logout } from "../../actions/auth";
 import PropTypes from "prop-types";
 
-const Navbar = ({ isAuthenticated }) => {
+const Navbar = ({ isAuthenticated, logout }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [buttonText, setButtonText] = useState("register");
     const navigate = useNavigate();
@@ -94,7 +95,11 @@ const Navbar = ({ isAuthenticated }) => {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}>
+                                <MenuItem
+                                    component={Link}
+                                    to={"/profile"}
+                                    onClick={handleClose}
+                                >
                                     <ListItemIcon>
                                         <PersonIcon fontSize="small" />
                                     </ListItemIcon>
@@ -106,7 +111,12 @@ const Navbar = ({ isAuthenticated }) => {
                                     </ListItemIcon>
                                     My account
                                 </MenuItem>
-                                <MenuItem onClick={handleClose}>
+                                <MenuItem
+                                    onClick={() => {
+                                        handleClose();
+                                        logout();
+                                    }}
+                                >
                                     <ListItemIcon>
                                         <Logout fontSize="small" />
                                     </ListItemIcon>
@@ -131,10 +141,11 @@ const Navbar = ({ isAuthenticated }) => {
 
 Navbar.propTypes = {
     isAuthenticated: PropTypes.bool,
+    logout: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps)(Navbar);
+export default connect(mapStateToProps, { logout })(Navbar);
