@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -8,11 +8,27 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { login } from "../../actions/auth";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-const Login = () => {
+const Login = ({ login, isAuthenticated }) => {
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/");
+        }
+    }, [isAuthenticated, navigate]);
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
+    const { email, password } = formData;
+    const onChange = (e) =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     const handleSubmit = (event) => {
         event.preventDefault();
-        return;
+        login(formData);
     };
     return (
         <Container component="main" maxWidth="xs">
@@ -42,6 +58,8 @@ const Login = () => {
                         fullWidth
                         id="email"
                         label="Email Address"
+                        value={email}
+                        onChange={onChange}
                         name="email"
                         autoComplete="email"
                         autoFocus
@@ -51,6 +69,8 @@ const Login = () => {
                         required
                         fullWidth
                         name="password"
+                        value={password}
+                        onChange={onChange}
                         label="Password"
                         type="password"
                         id="password"
@@ -92,4 +112,12 @@ const Login = () => {
     );
 };
 
-export default Login;
+Login.propTypes = {
+    login: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool,
+};
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(Login);

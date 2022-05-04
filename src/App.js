@@ -9,6 +9,8 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import Dashboard from "./components/layout/Dashboard";
 import { Provider } from "react-redux";
+import setAuthToken from "./utils/setAuthToken";
+
 import store from "./store";
 
 const darkTheme = createTheme({
@@ -16,6 +18,9 @@ const darkTheme = createTheme({
         mode: "dark",
     },
 });
+if (localStorage.token) {
+    setAuthToken(localStorage.token);
+}
 
 function App() {
     return (
@@ -33,11 +38,7 @@ function App() {
                                 path="/register"
                                 element={<Register />}
                             />
-                            <Route
-                                element={
-                                    <PrivateRoute isAuthenticated={true} />
-                                }
-                            >
+                            <Route element={<PrivateRoute />}>
                                 <Route path="/" element={<Dashboard />} />
                             </Route>
                         </Routes>
