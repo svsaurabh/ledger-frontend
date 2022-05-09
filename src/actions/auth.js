@@ -9,6 +9,8 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT,
+    UPDATE_PROFILE,
+    UPDATE_PROFILE_ERROR,
 } from "./types";
 
 // Load user
@@ -106,4 +108,39 @@ export const logout = () => async (dispatch) => {
         type: LOGOUT,
     });
     dispatch(setAlert("You are logged out", "success"));
+};
+
+export const updateUser = (user) => async (dispatch) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    const body = JSON.stringify({
+        firstName: user.firstName,
+        lastName: user.lastName,
+    });
+    try {
+        const res = await axios.put(
+            `${process.env.REACT_APP_SERVER_URL}/api/users/${user.email}`,
+            body,
+            config
+        );
+        const { data, message } = res.data;
+        dispatch({
+            type: UPDATE_PROFILE,
+            payload: data,
+        });
+        dispatch(setAlert(message, "success"));
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PROFILE_ERROR,
+        });
+        const errors = error.response.data.errors;
+        if (errors) {
+            errors.forEach((err) => {
+                return dispatch(setAlert(err.message, "error"));
+            });
+        }
+    }
 };
