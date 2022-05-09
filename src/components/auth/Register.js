@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -12,8 +12,13 @@ import { register } from "../../actions/auth";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-const Register = ({ register }) => {
+const Register = ({ register, isAuthenticated }) => {
     const navigate = useNavigate();
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/");
+        }
+    }, [isAuthenticated, navigate]);
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -147,6 +152,7 @@ const Register = ({ register }) => {
 
 Register.propTypes = {
     register: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({

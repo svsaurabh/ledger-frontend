@@ -45,7 +45,7 @@ export const register =
         const body = JSON.stringify({ firstName, lastName, email, password });
         try {
             const res = await axios.post(
-                `${process.env.REACT_APP_SERVER_URL}/api/users`,
+                `${process.env.REACT_APP_SERVER_URL}/api/user`,
                 body,
                 config
             );
@@ -90,7 +90,6 @@ export const login =
             });
             dispatch(setAlert("You are logged in", "success"));
         } catch (error) {
-            console.log(error);
             const errors = error.response.data.errors;
             if (errors) {
                 errors.forEach((err) => {
@@ -122,7 +121,7 @@ export const updateUser = (user) => async (dispatch) => {
     });
     try {
         const res = await axios.put(
-            `${process.env.REACT_APP_SERVER_URL}/api/users/${user.email}`,
+            `${process.env.REACT_APP_SERVER_URL}/api/user/${user.email}`,
             body,
             config
         );
