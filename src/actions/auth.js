@@ -19,9 +19,7 @@ export const loadUser = () => async (dispatch) => {
         setAuthToken(localStorage.token);
     }
     try {
-        const res = await axios.get(
-            `${process.env.REACT_APP_SERVER_URL}/api/auth`
-        );
+        const res = await axios.get(`/api/auth`);
         dispatch({
             type: USER_LOADED,
             payload: res.data,
@@ -44,11 +42,7 @@ export const register =
         };
         const body = JSON.stringify({ firstName, lastName, email, password });
         try {
-            const res = await axios.post(
-                `${process.env.REACT_APP_SERVER_URL}/api/user`,
-                body,
-                config
-            );
+            const res = await axios.post(`/api/user`, body, config);
             dispatch({
                 type: REGISTER_SUCCESS,
             });
@@ -79,11 +73,7 @@ export const login =
         };
         const body = JSON.stringify({ email, password });
         try {
-            const res = await axios.post(
-                `${process.env.REACT_APP_SERVER_URL}/api/auth/login`,
-                body,
-                config
-            );
+            const res = await axios.post(`/api/auth/login`, body, config);
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: res.data,
@@ -120,11 +110,7 @@ export const updateUser = (user) => async (dispatch) => {
         lastName: user.lastName,
     });
     try {
-        const res = await axios.put(
-            `${process.env.REACT_APP_SERVER_URL}/api/user/${user.email}`,
-            body,
-            config
-        );
+        const res = await axios.put(`/api/user/${user.email}`, body, config);
         const { data, message } = res.data;
         dispatch({
             type: UPDATE_PROFILE,
